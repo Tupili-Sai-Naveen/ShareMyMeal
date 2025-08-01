@@ -28,7 +28,10 @@ const PinSchema = new mongoose.Schema({
 
 const Pin = mongoose.model("Pin", PinSchema);
 
-// Routes
+app.get('/', (req, res) => {
+  res.send('✅ ShareMyMeal API is running!');
+});
+
 app.get("/pins", async (req, res) => {
   const pins = await Pin.find();
   res.json(pins);
