@@ -9,12 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connect
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
-// Mongoose schema
+
 const PinSchema = new mongoose.Schema({
   lat: Number,
   lng: Number,
@@ -28,9 +28,6 @@ const PinSchema = new mongoose.Schema({
 
 const Pin = mongoose.model("Pin", PinSchema);
 
-app.get('/', (req, res) => {
-  res.send('✅ ShareMyMeal API is running!');
-});
 
 app.get("/pins", async (req, res) => {
   const pins = await Pin.find();
@@ -50,7 +47,7 @@ cron.schedule('*/10 * * * *', async () => {
 
   const result = await Pin.deleteMany({ createdAt: { $lt: expiryDate } });
   if (result.deletedCount > 0) {
-    console.log(🧹 Deleted ${result.deletedCount} expired pins);
+    console.log(`🧹 Deleted ${result.deletedCount} expired pins`);
   }
 });
 
